@@ -1,12 +1,14 @@
 import React from 'react';
 import { Pressable, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
 
-const LargeButton: React.FC<{
+type LargeButtonProps = {
   title: string;
   onPress: () => void;
   buttonStyle?: ViewStyle;
   textStyle?: TextStyle;
-}> = ({ title, onPress, buttonStyle, textStyle }) => {
+};
+
+const LargeButton = ({ title, onPress, buttonStyle, textStyle }: LargeButtonProps) => {
   return (
     <Pressable
       onPress={onPress}

@@ -2,13 +2,21 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import LargeButton from '../components/LargeButton.tsx';
 
-const TrackingButtons: React.FC<{
+type TrackingButtonsProp = {
   trackingStatus: string;
   start: () => void;
   pause: () => void;
   resume: () => void;
   stop: () => void;
-}> = ({ trackingStatus, start, pause, resume, stop }) => {
+};
+
+const TrackingButtons = ({
+  trackingStatus,
+  start,
+  pause,
+  resume,
+  stop,
+}: TrackingButtonsProp) => {
   return (
     <View style={styles.buttonWrapper}>
       {trackingStatus === 'Not Started' && <LargeButton title="Start" onPress={start} />}
