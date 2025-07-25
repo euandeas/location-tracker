@@ -6,11 +6,9 @@ import { NavigationContainer } from '@react-navigation/native';
 
 const App = () => {
   return (
-    <StrictMode>
-      <NavigationContainer>
-        <Router />
-      </NavigationContainer>
-    </StrictMode>
+    <NavigationContainer>
+      <Router />
+    </NavigationContainer>
   );
 };
 
