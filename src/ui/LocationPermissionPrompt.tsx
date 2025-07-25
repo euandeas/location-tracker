@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Button, Platform, Linking } from 'react-native';
 
+// Open settings application, so user can grant location permission
 const openSettings = () => {
   if (Platform.OS === 'ios') {
     Linking.openURL('app-settings:');
