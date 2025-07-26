@@ -4,7 +4,7 @@ import { useStopwatch } from 'react-timer-hook';
 
 type TrackingStatus = 'Not Started' | 'Tracking' | 'Paused';
 
-type Activity = {
+export type Activity = {
   start: number;
   end: number;
   duration: number;

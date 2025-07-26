@@ -22,7 +22,11 @@ const Router = () => {
         component={MapScreen}
         options={{ headerShown: false }}
       />
-      <RootStack.Screen name="WorkoutComplete" component={WorkoutComplete} />
+      <RootStack.Screen
+        name="WorkoutComplete"
+        component={WorkoutComplete}
+        options={{ title: 'Workout Summary' }}
+      />
     </RootStack.Navigator>
   );
 };

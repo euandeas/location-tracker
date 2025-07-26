@@ -8,6 +8,7 @@ import Geolocation from '@react-native-community/geolocation';
 import LocationPermissionPrompt from './ui/LocationPermissionPrompt';
 import TrackingButtons from './ui/TrackingButtons';
 import useLocationTracking from './utils/Tracking';
+import { distanceFormat, speedFormat } from './utils/Formatting';
 
 const deviceHeight = Dimensions.get('window').height;
 
@@ -50,21 +51,6 @@ const MapScreen = () => {
   const stopWorkout = () => {
     const activity = stopTracking();
     navigation.navigate('WorkoutComplete', { activity });
-  };
-
-  const distanceFormat = (d: number) => {
-    const km = d / 1000;
-    return km.toFixed(2) + ' km';
-  };
-
-  const speedFormat = (s: number) => {
-    if (s === 0) {
-      return '0:00 /km';
-    }
-    const totalMinutes = 16.6667 / s;
-    const minutes = Math.floor(totalMinutes);
-    const seconds = Math.round((totalMinutes - minutes) * 60);
-    return `${minutes}:${seconds.toString().padStart(2, '0')} /km`;
   };
 
   return (
