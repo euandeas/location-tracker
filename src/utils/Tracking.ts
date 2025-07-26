@@ -22,7 +22,6 @@ const useLocationTracking = () => {
   const [distance, setDistance] = useState<number>(0);
   const [speed, setSpeed] = useState<number>(0);
   const start = useRef<number>(0);
-  const end = useRef<number>(0);
   const stopwatch = useStopwatch({ autoStart: false });
 
   const watchId = useRef<number | undefined>(undefined);
@@ -113,21 +112,30 @@ const useLocationTracking = () => {
 
   const stopTracking = () => {
     stopwatch.pause();
-    end.current = new Date().getTime();
     if (watchId.current) {
       Geolocation.clearWatch(watchId.current);
     }
-    setTrackingStatus('Not Started');
 
     const activity: Activity = {
       start: start.current,
-      end: end.current,
+      end: new Date().getTime(),
       duration: stopwatch.totalMilliseconds,
       distance,
       locationHistory,
     };
 
+    resetTracking();
+
     return activity;
+  };
+
+  const resetTracking = () => {
+    setTrackingStatus('Not Started');
+    setLocationHistory([[]]);
+    setDistance(0);
+    setSpeed(0);
+    start.current = 0;
+    stopwatch.reset(undefined, false);
   };
 
   return {

@@ -43,7 +43,7 @@ const WorkoutComplete = ({ route }: StaticScreenProps<{ activity: Activity }>) =
       <View style={styles.statBox}>
         <Text style={styles.label}>Average Speed</Text>
         <Text style={styles.value}>
-          {speedFormat(activity.distance / activity.duration)}
+          {speedFormat(activity.distance / (activity.duration / 1000))}
         </Text>
       </View>
 

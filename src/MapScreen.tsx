@@ -95,7 +95,7 @@ const MapScreen = () => {
               key={index}
               coordinates={coordinates}
               strokeColor="blue"
-              strokeWidth={3}
+              strokeWidth={4}
             />
           );
         })}
