@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import Geolocation, { GeolocationResponse } from '@react-native-community/geolocation';
+import { useStopwatch } from 'react-timer-hook';
 
 type TrackingStatus = 'Not Started' | 'Tracking' | 'Paused';
 
@@ -19,9 +20,10 @@ const useLocationTracking = () => {
 
   const [locationHistory, setLocationHistory] = useState<GeolocationResponse[][]>([[]]);
   const [distance, setDistance] = useState<number>(0);
-  const [duration, setDuration] = useState<number>(0);
+  const [speed, setSpeed] = useState<number>(0);
   const start = useRef<number>(0);
   const end = useRef<number>(0);
+  const stopwatch = useStopwatch({ autoStart: false });
 
   const watchId = useRef<number | undefined>(undefined);
 
@@ -41,10 +43,9 @@ const useLocationTracking = () => {
         setDistance(
           (prevDistance) => prevDistance + distanceBetween(prevPosition, position),
         );
-        setDuration(
-          (prevDuration) => prevDuration + position.timestamp - prevPosition.timestamp,
-        );
       }
+
+      setSpeed(position.coords.speed || 0);
 
       newHistory[newHistory.length - 1] = currentPath;
       return newHistory;
@@ -73,24 +74,24 @@ const useLocationTracking = () => {
   };
 
   const locationTracking = () => {
-    if (!watchId.current) {
-      watchId.current = Geolocation.watchPosition(
-        (position) => {
-          if (trackingStatusRef.current === 'Tracking') {
-            newPosition(position);
-          }
-        },
-        (error) => {
-          console.error(error);
-        },
-        { enableHighAccuracy: true, timeout: 60000, maximumAge: 0, distanceFilter: 5 },
-      );
-    }
+    console.log(watchId.current);
+    watchId.current = Geolocation.watchPosition(
+      (position) => {
+        if (trackingStatusRef.current === 'Tracking') {
+          newPosition(position);
+        }
+      },
+      (error) => {
+        console.error(error);
+      },
+      { enableHighAccuracy: true, timeout: 60000, maximumAge: 0, distanceFilter: 5 },
+    );
   };
 
   const startTracking = () => {
     setTrackingStatus('Tracking');
     start.current = new Date().getTime();
+    stopwatch.start();
     locationTracking();
   };
 
@@ -99,6 +100,7 @@ const useLocationTracking = () => {
     if (watchId.current) {
       Geolocation.clearWatch(watchId.current);
     }
+    stopwatch.pause();
     setLocationHistory((prevHistory) => [...prevHistory, []]);
     setTrackingStatus('Paused');
   };
@@ -106,9 +108,11 @@ const useLocationTracking = () => {
   const resumeTracking = () => {
     locationTracking();
     setTrackingStatus('Tracking');
+    stopwatch.start();
   };
 
   const stopTracking = () => {
+    stopwatch.pause();
     end.current = new Date().getTime();
     if (watchId.current) {
       Geolocation.clearWatch(watchId.current);
@@ -118,7 +122,7 @@ const useLocationTracking = () => {
     const activity: Activity = {
       start: start.current,
       end: end.current,
-      duration,
+      duration: stopwatch.totalMilliseconds,
       distance,
       locationHistory,
     };
@@ -129,7 +133,8 @@ const useLocationTracking = () => {
   return {
     trackingStatus,
     distance,
-    duration,
+    stopwatch,
+    speed,
     locationHistory,
     startTracking,
     pauseTracking,

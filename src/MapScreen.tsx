@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, View, Text } from 'react-native';
 import MapView, { Polyline } from 'react-native-maps';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -16,6 +16,9 @@ const MapScreen = () => {
   const [permissionStatus, setPermissionStatus] = useState(true);
   const {
     trackingStatus,
+    distance,
+    stopwatch,
+    speed,
     locationHistory,
     startTracking,
     pauseTracking,
@@ -49,8 +52,41 @@ const MapScreen = () => {
     navigation.navigate('WorkoutComplete', { activity });
   };
 
+  const distanceFormat = (d: number) => {
+    const km = d / 1000;
+    return km.toFixed(2) + ' km';
+  };
+
+  const speedFormat = (s: number) => {
+    if (s === 0) {
+      return '0:00 /km';
+    }
+    const totalMinutes = 16.6667 / s;
+    const minutes = Math.floor(totalMinutes);
+    const seconds = Math.round((totalMinutes - minutes) * 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')} /km`;
+  };
+
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.statsContainer}>
+        <View style={styles.statItem}>
+          <Text style={styles.statLabel}>Distance</Text>
+          <Text style={styles.statValue}>{distanceFormat(distance)}</Text>
+        </View>
+        <View style={styles.statItem}>
+          <Text style={styles.statLabel}>Split</Text>
+          <Text style={styles.statValue}>{speedFormat(speed)}</Text>
+        </View>
+        <View style={styles.statItem}>
+          <Text style={styles.statLabel}>Time</Text>
+          <Text style={styles.statValue}>
+            {stopwatch.minutes.toString().padStart(2, '0')}:
+            {stopwatch.seconds.toString().padStart(2, '0')}
+          </Text>
+        </View>
+      </View>
+
       <MapView
         style={styles.map}
         showsUserLocation={true}
@@ -97,6 +133,31 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     flex: 1,
     height: deviceHeight,
+  },
+  statsContainer: {
+    position: 'absolute',
+    top: 40,
+    left: 20,
+    right: 20,
+    backgroundColor: '#343534',
+    borderRadius: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    paddingVertical: 10,
+    zIndex: 10,
+  },
+  statItem: {
+    alignItems: 'center',
+  },
+  statLabel: {
+    fontSize: 16,
+    color: '#fff',
+  },
+  statValue: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    color: '#fff',
   },
   map: {
     ...StyleSheet.absoluteFillObject,
