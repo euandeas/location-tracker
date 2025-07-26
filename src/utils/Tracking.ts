@@ -19,6 +19,7 @@ const useLocationTracking = () => {
   const trackingStatusRef = useRef<TrackingStatus>('Not Started');
 
   const [locationHistory, setLocationHistory] = useState<GeolocationResponse[][]>([[]]);
+  const [region, setRegion] = useState<GeolocationResponse['coords']>();
   const [distance, setDistance] = useState<number>(0);
   const [speed, setSpeed] = useState<number>(0);
   const start = useRef<number>(0);
@@ -73,9 +74,10 @@ const useLocationTracking = () => {
   };
 
   const locationTracking = () => {
-    console.log(watchId.current);
     watchId.current = Geolocation.watchPosition(
       (position) => {
+        setRegion(position.coords);
+        console.log(region);
         if (trackingStatusRef.current === 'Tracking') {
           newPosition(position);
         }
@@ -139,6 +141,7 @@ const useLocationTracking = () => {
   };
 
   return {
+    region,
     trackingStatus,
     distance,
     stopwatch,

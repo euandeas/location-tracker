@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Dimensions, View, Text } from 'react-native';
+import { StyleSheet, Dimensions, View, Text, Platform } from 'react-native';
 import MapView, { Polyline } from 'react-native-maps';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -16,6 +16,7 @@ const MapScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [permissionStatus, setPermissionStatus] = useState(true);
   const {
+    region,
     trackingStatus,
     distance,
     stopwatch,
@@ -75,10 +76,20 @@ const MapScreen = () => {
 
       <MapView
         style={styles.map}
-        showsUserLocation={true}
+        showsUserLocation={permissionStatus}
         followsUserLocation={true}
         showsMyLocationButton={false}
         showsCompass={false}
+        region={
+          Platform.OS === 'android'
+            ? {
+                latitude: region ? region.latitude : 51.478792,
+                longitude: region ? region.longitude : -0.156603,
+                latitudeDelta: 0.015,
+                longitudeDelta: 0.015,
+              }
+            : undefined
+        }
       >
         {locationHistory.map((segment, index) => {
           if (segment.length < 2) {
