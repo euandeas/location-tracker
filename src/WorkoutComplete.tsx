@@ -1,10 +1,17 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { Activity } from './utils/Tracking';
-import { StaticScreenProps } from '@react-navigation/native';
 import { distanceFormat, durationFormat, speedFormat } from './utils/Formatting';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-const WorkoutComplete = ({ route }: StaticScreenProps<{ activity: Activity }>) => {
+type RootStackParamList = {
+  Map: undefined;
+  WorkoutComplete: { activity: Activity };
+};
+
+type Props = NativeStackScreenProps<RootStackParamList, 'WorkoutComplete'>;
+
+const WorkoutComplete = ({ route }: Props) => {
   const { activity } = route.params;
 
   const startTime = new Date(activity.start);

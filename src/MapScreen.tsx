@@ -14,7 +14,7 @@ const deviceHeight = Dimensions.get('window').height;
 
 const MapScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const [permissionStatus, setPermissionStatus] = useState(true);
+  const [permissionStatus, setPermissionStatus] = useState(false);
   const {
     region,
     trackingStatus,
@@ -28,12 +28,12 @@ const MapScreen = () => {
     stopTracking,
   } = useLocationTracking();
 
-  useEffect(() => {
-    Geolocation.setRNConfiguration({
-      skipPermissionRequests: false,
-      authorizationLevel: 'always',
-    });
+  let defRegion = {
+    latitude: 51.478792,
+    longitude: -0.156603,
+  };
 
+  useEffect(() => {
     // Request permissions on mount
     requestPermissions();
   }, []);
@@ -83,8 +83,8 @@ const MapScreen = () => {
         region={
           Platform.OS === 'android'
             ? {
-                latitude: region ? region.latitude : 51.478792,
-                longitude: region ? region.longitude : -0.156603,
+                latitude: region ? region.latitude : defRegion.latitude,
+                longitude: region ? region.longitude : defRegion.longitude,
                 latitudeDelta: 0.015,
                 longitudeDelta: 0.015,
               }

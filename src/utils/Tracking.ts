@@ -77,7 +77,6 @@ const useLocationTracking = () => {
     watchId.current = Geolocation.watchPosition(
       (position) => {
         setRegion(position.coords);
-        console.log(region);
         if (trackingStatusRef.current === 'Tracking') {
           newPosition(position);
         }
