@@ -10,13 +10,6 @@ const WorkoutComplete = ({ route }: StaticScreenProps<{ activity: Activity }>) =
   const startTime = new Date(activity.start);
   const endTime = new Date(activity.end);
 
-  const distanceFormat = (d: number) => {
-    const km = d / 1000;
-    return km.toFixed(2) + ' km';
-  };
-  //const averageSpeed = activity.averageSpeed.toFixed(2);
-  //const movingTime = activity.movingTime.toFixed(2);
-
   return (
     <View style={styles.container}>
       <View style={styles.statBox}>
