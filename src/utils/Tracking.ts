@@ -31,7 +31,7 @@ const useLocationTracking = () => {
     trackingStatusRef.current = trackingStatus;
   }, [trackingStatus]);
 
-  const newPosition = (position: GeolocationResponse) => {
+  const newPosition = async (position: GeolocationResponse) => {
     setLocationHistory((prevHistory) => {
       const newHistory = [...prevHistory];
       const currentPath = newHistory[newHistory.length - 1];
@@ -73,7 +73,7 @@ const useLocationTracking = () => {
     return d;
   };
 
-  const locationTracking = () => {
+  const locationTracking = async () => {
     watchId.current = Geolocation.watchPosition(
       (position) => {
         setRegion(position.coords);
@@ -88,14 +88,14 @@ const useLocationTracking = () => {
     );
   };
 
-  const startTracking = () => {
+  const startTracking = async () => {
     setTrackingStatus('Tracking');
     start.current = new Date().getTime();
     stopwatch.start();
     locationTracking();
   };
 
-  const pauseTracking = () => {
+  const pauseTracking = async () => {
     // Small optimization to prevent unnecessary updates
     if (watchId.current) {
       Geolocation.clearWatch(watchId.current);
@@ -105,13 +105,13 @@ const useLocationTracking = () => {
     setTrackingStatus('Paused');
   };
 
-  const resumeTracking = () => {
+  const resumeTracking = async () => {
     locationTracking();
     setTrackingStatus('Tracking');
     stopwatch.start();
   };
 
-  const stopTracking = () => {
+  const stopTracking = async () => {
     stopwatch.pause();
     if (watchId.current) {
       Geolocation.clearWatch(watchId.current);
@@ -130,7 +130,7 @@ const useLocationTracking = () => {
     return activity;
   };
 
-  const resetTracking = () => {
+  const resetTracking = async () => {
     setTrackingStatus('Not Started');
     setLocationHistory([[]]);
     setDistance(0);

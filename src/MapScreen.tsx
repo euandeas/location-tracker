@@ -49,8 +49,8 @@ const MapScreen = () => {
     );
   };
 
-  const stopWorkout = () => {
-    const activity = stopTracking();
+  const stopWorkout = async () => {
+    const activity = await stopTracking();
     navigation.navigate('WorkoutComplete', { activity });
   };
 
