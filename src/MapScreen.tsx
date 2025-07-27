@@ -38,7 +38,7 @@ const MapScreen = () => {
     requestPermissions();
   }, []);
 
-  const requestPermissions = () => {
+  const requestPermissions = async () => {
     Geolocation.requestAuthorization(
       () => {
         setPermissionStatus(true);
@@ -76,8 +76,8 @@ const MapScreen = () => {
 
       <MapView
         style={styles.map}
-        showsUserLocation={permissionStatus}
-        followsUserLocation={true}
+        showsUserLocation
+        followsUserLocation
         showsMyLocationButton={false}
         showsCompass={false}
         region={
