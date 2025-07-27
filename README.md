@@ -17,6 +17,8 @@ React Native app that allows users to track their workout. Allows user to see th
 - Distance calculation using Haversine formula
 - Handles permission errors gracefully
 
+---
+
 ## 🧪 Project Setup
 
 1. Clone and install dependencies
@@ -36,7 +38,7 @@ npm install
  ```
 
  - iOS:
- ```
+ ```bash
  cd ios && pod install && cd ..
  npm run start
  npm run ios
@@ -44,18 +46,18 @@ npm install
 
 ---
 
-##📁 Project Structure
+## 📁 Project Structure
 
 ```
- .
-├──  components
-│   └──  LargeButton.tsx
-├──  ui
-│   ├──  LocationPermissionPrompt.tsx
-│   └──  TrackingButtons.tsx
-├──  utils
-│   ├──  Formatting.ts
-│   └──  Tracking.ts
-├──  MapScreen.tsx - Live Tracking
-└──  WorkoutComplete.tsx - Workout Summary
+.
+├── components
+│   └── LargeButton.tsx
+├── ui
+│   ├── LocationPermissionPrompt.tsx
+│   └── TrackingButtons.tsx
+├── utils
+│   ├── Formatting.ts
+│   └── Tracking.ts
+├── MapScreen.tsx - Live Tracking
+└── WorkoutComplete.tsx - Workout Summary
 ```
