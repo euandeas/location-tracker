@@ -1,8 +1,10 @@
+// Convert meters to kilometers
 export const distanceFormat = (d: number) => {
   const km = d / 1000;
   return km.toFixed(2) + ' km';
 };
 
+// Convert m/s to /km
 export const speedFormat = (s: number) => {
   if (s === 0) {
     return '0:00 /km';
@@ -13,6 +15,7 @@ export const speedFormat = (s: number) => {
   return `${minutes}:${seconds.toString().padStart(2, '0')} /km`;
 };
 
+// Convert milliseconds to hours:minutes:seconds
 export const durationFormat = (d: number) => {
   const hours = Math.floor(d / 3600000);
   const minutes = Math.floor((d % 3600000) / 60000);

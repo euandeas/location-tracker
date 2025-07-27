@@ -31,6 +31,7 @@ const useLocationTracking = () => {
     trackingStatusRef.current = trackingStatus;
   }, [trackingStatus]);
 
+  // Handles position updates - add to history, calculate distance and set speed
   const newPosition = async (position: GeolocationResponse) => {
     setLocationHistory((prevHistory) => {
       const newHistory = [...prevHistory];
@@ -52,6 +53,7 @@ const useLocationTracking = () => {
     });
   };
 
+  // Calculates distance between two points on the Earth's surface using the Haversine formula
   const distanceBetween = (
     prevPosition: GeolocationResponse,
     position: GeolocationResponse,
@@ -73,6 +75,7 @@ const useLocationTracking = () => {
     return d;
   };
 
+  // Starts watching GPS location changes
   const locationTracking = async () => {
     watchId.current = Geolocation.watchPosition(
       (position) => {
@@ -88,6 +91,7 @@ const useLocationTracking = () => {
     );
   };
 
+  // Starts workout tracking
   const startTracking = async () => {
     setTrackingStatus('Tracking');
     start.current = new Date().getTime();
@@ -95,12 +99,14 @@ const useLocationTracking = () => {
     locationTracking();
   };
 
+  // Pauses workout tracking
   const pauseTracking = async () => {
     // Small optimization to prevent unnecessary updates
     if (watchId.current) {
       Geolocation.clearWatch(watchId.current);
     }
     stopwatch.pause();
+    // create new "segment" for after pause
     setLocationHistory((prevHistory) => [...prevHistory, []]);
     setTrackingStatus('Paused');
   };
@@ -111,6 +117,7 @@ const useLocationTracking = () => {
     stopwatch.start();
   };
 
+  // Stop tracking, return activity data and reset tracking details
   const stopTracking = async () => {
     stopwatch.pause();
     if (watchId.current) {
@@ -130,6 +137,7 @@ const useLocationTracking = () => {
     return activity;
   };
 
+  // Reset tracking details
   const resetTracking = async () => {
     setTrackingStatus('Not Started');
     setLocationHistory([[]]);

@@ -49,6 +49,7 @@ const MapScreen = () => {
     );
   };
 
+  // Stop tracking and then pass activity details to WorkoutComplete screen
   const stopWorkout = async () => {
     const activity = await stopTracking();
     navigation.navigate('WorkoutComplete', { activity });
@@ -76,10 +77,13 @@ const MapScreen = () => {
 
       <MapView
         style={styles.map}
+        // Bug in react-native-maps on Android means this doesn't always work
         showsUserLocation
+        // IOS only
         followsUserLocation
         showsMyLocationButton={false}
         showsCompass={false}
+        // Following user location on android
         region={
           Platform.OS === 'android'
             ? {
@@ -92,6 +96,7 @@ const MapScreen = () => {
         }
       >
         {locationHistory.map((segment, index) => {
+          // Displays route on map, handling pauses.
           if (segment.length < 2) {
             return null;
           }

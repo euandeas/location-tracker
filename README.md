@@ -1,63 +1,61 @@
 # 🏃‍♂️ Edge GPS Tracker - Take Home Test
 
-Welcome to the Edge take-home test! This challenge is designed to simulate a real-world feature we might build in the
-Edge app. It focuses on mobile location tracking and front-end feature implementation.
+React Native app that allows users to track their workout. Allows user to see their route on a live map, view live metrics (time, distance, and average speed) and receive a summary of their workout when they finish.
 
 ---
 
-## 📦 Overview
+## 📦 Features
 
-Your task is to build a **basic GPS activity tracker**. Users should
-be able to:
+- Start a workout session that tracks their GPS location.
+- View their route on a live map.
+- Pause the session if they need a quick break.
+- View metrics like time, distance, and speed while tracking.
+- Receive a summary of their workout, including total distance, average speed, moving time and elapsed time.
 
-1. Start a workout session that tracks their GPS location.
-2. View their route on a live map.
-3. Stop the session and move to the next screen.
-4. (Bonus) View metrics like time, distance.
+## 📦 Technical Features
 
----
-
-## 🧠 What We're Looking For
-
-This test is not about pixel-perfect UI + design — we care about:
-
-- Code clarity and structure
-- Realistic handling of location tracking
-- Practical decision-making
-- Communication (via README/comments)
-
----
-
-## 🚀 Requirements
-
-### 📱 Frontend (React Native + TypeScript)
-
-- Request foreground location permissions from the user
-- Start and stop GPS location tracking
-- Display the route in real-time using a map
-
----
-
-## ✅ Bonus Ideas (Optional)
-
-- Track and display total distance using Haversine formula
-- Calculate and display average speed
-- Handle permission errors gracefully
-- Store a backup of location data locally in case of crash
-- Auto-pause tracking when the user is stationary / auto-resume when moving
-- Break down of split times (e.g., every km)
-- Any other features you think would be useful
-
----
+- Distance calculation using Haversine formula
+- Handles permission errors gracefully
 
 ## 🧪 Project Setup
 
-### 1. Frontend
+1. Clone and install dependencies
 
 ```bash
-cd location-tracker 
+git clone https://github.com/euandeas/location-tracker.git
+cd location-tracker
 npm install
-cd ios && pod install && cd ..
-npm run start
-npm run ios
+```
+
+2. Start development server
+
+ - Android:
+ ```bash
+ npm run start
+ npm run android
+ ```
+
+ - iOS:
+ ```
+ cd ios && pod install && cd ..
+ npm run start
+ npm run ios
+```
+
+---
+
+##📁 Project Structure
+
+```
+ .
+├──  components
+│   └──  LargeButton.tsx
+├──  ui
+│   ├──  LocationPermissionPrompt.tsx
+│   └──  TrackingButtons.tsx
+├──  utils
+│   ├──  Formatting.ts
+│   └──  Tracking.ts
+├──  MapScreen.tsx - Live Tracking
+└──  WorkoutComplete.tsx - Workout Summary
 ```
